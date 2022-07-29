@@ -4,15 +4,44 @@
 {% block page_title %} {{ page.title }} {% endblock %}
 
 {% block page_content %}
-	<ul>
+	<h1>{{ page.title }}</h1>
+	<div class="row">
 	{% for device in devices %}
-		<li>{{ device.name }}</li>
+		<div class="col s12 m6 l4">
+			<div class="card">
+				<div class="card-image">
+					{% if device.image %}
+						<img src="{{ device.image.url }}" alt="{{ device.name }}">
+					{% else %}
+						<img src="" alt="{{ device.name }}">
+					{% endif %}
+					<span class="card-title">{{ device.name }}</span>
+				</div>
+				<div class="card-content">
+					<p></p>
+				</div>
+				<div class="card-action">
+					Select
+				</div>
+			</div>
+		</div>
 	{% endfor %}
+	</div>
+	<ul class="pagination center-align">
+		<li class="waves-effect"><a href="#!">&lt;</a></li>
+		<li class="waves-effect teal active"><a href="#!">1</a></li>
+		<li class="waves-effect"><a href="#!">2</a></li>
+		<li class="waves-effect"><a href="#!">3</a></li>
+		<li class="waves-effect"><a href="#!">&gt;</a></li>
 	</ul>
-	<ul>
 	{% for page_section in page_sections %}
-		<li>{{ page_section.title }}</li>
+		<div class="section">
+			<h3>{{ page_section.title }}</h3>
+			{% if page_section.image %}
+				<img src="{{ page_section.image.url }}" alt="{{ page_section.title }} image" width="100%">
+			{% endif %}
+			{{ page_section.html_content | safe }}
+		</div>
 	{% endfor %}
-	</ul>
 {% endblock %}
 
