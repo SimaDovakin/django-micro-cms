@@ -13,7 +13,7 @@
 					{% if device.image %}
 						<img src="{{ device.image.url }}" alt="{{ device.name }}">
 					{% else %}
-						<img src="" alt="{{ device.name }}">
+						<img src="{% static 'product_image/defaults/default_device.jpg' %}" alt="{{ device.name }}">
 					{% endif %}
 					<span class="card-title">{{ device.name }}</span>
 				</div>
@@ -21,7 +21,7 @@
 					<p></p>
 				</div>
 				<div class="card-action">
-					Select
+					<a class="waves-effect waves-light btn">Select</a>
 				</div>
 			</div>
 		</div>
