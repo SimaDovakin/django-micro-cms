@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.sites.models import Site
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -7,7 +7,8 @@ from pages.models import WebPage
 
 
 def _save_image(instance, filename):
-    return f"product_image/{get_current_site().id}_{instance.pk}_{filename}"
+    current_site = Site.objects.get_current()
+    return f"product_image/{current_site.id}_{instance.name}_{filename}"
 
 
 class Country(models.Model):

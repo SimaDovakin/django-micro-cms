@@ -1,11 +1,11 @@
 from django.contrib.sites.models import Site
 from django.contrib.sites.managers import CurrentSiteManager
-from django.contrib.sites.shortcuts import get_current_site
 from django.db import models
 
 
 def _save_image(instance, filename):
-    return f"section_image/{get_current_site().id}_{instance.pk}_{filename}"
+    current_site = Site.objects.get_current()
+    return f"section_image/{current_site.id}_{instance.title}_{filename}"
 
 
 class WebPage(models.Model):
