@@ -60,12 +60,19 @@
 
 	{% for page_section in page_sections %}
 		<div class="section">
-			<h3>{{ page_section.title }}</h3>
+			<h2>{{ page_section.title }}</h3>
 			{% if page_section.image %}
 				<img src="{{ page_section.image.url }}" alt="{{ page_section.title }} image" width="100%">
 			{% endif %}
 			{{ page_section.html_content | safe }}
 		</div>
 	{% endfor %}
+	<div class="row">
+		<h3>Want to buy device?</h3>
+		<form class="s12" action="" method="post">
+			{% csrf_token %}
+			{{ form.as_p }}
+		</form>
+	</div>
 {% endblock %}
 

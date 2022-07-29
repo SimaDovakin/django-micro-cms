@@ -2,6 +2,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
+from .forms import LeadCaptureForm
 from .models import WebPage, PageSection
 from products.models import Device
 
@@ -23,10 +24,13 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    form = LeadCaptureForm()
+
     context = {
         'page': page,
         'page_sections': page_sections,
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'form': form
     }
 
     return render(request, 'pages/index.html', context)
