@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %} {{ page.title }} {% endblock %}
+
+{% block page_content %}
+	<ul>
+	{% for device in devices %}
+		<li>{{ device.name }}</li>
+	{% endfor %}
+	</ul>
+	<ul>
+	{% for page_section in page_sections %}
+		<li>{{ page_section.title }}</li>
+	{% endfor %}
+	</ul>
+{% endblock %}
+
