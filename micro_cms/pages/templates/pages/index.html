@@ -6,7 +6,7 @@
 {% block page_content %}
 	<h1>{{ page.title }}</h1>
 	<div class="row">
-	{% for device in devices %}
+	{% for device in page_obj %}
 		<div class="col s12 m6 l4">
 			<div class="card">
 				<div class="card-image">
@@ -27,13 +27,37 @@
 		</div>
 	{% endfor %}
 	</div>
+
 	<ul class="pagination center-align">
-		<li class="waves-effect"><a href="#!">&lt;</a></li>
-		<li class="waves-effect teal active"><a href="#!">1</a></li>
-		<li class="waves-effect"><a href="#!">2</a></li>
-		<li class="waves-effect"><a href="#!">3</a></li>
-		<li class="waves-effect"><a href="#!">&gt;</a></li>
+		{% if page_obj.has_previous %}
+			<li class="waves-effect"><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+		{% endif %}
+
+		{% if page_obj.paginator.num_pages <= 6 %}
+			{% for p in page_obj.paginator.page_range %}
+				{% if page_obj.number == p %}
+					<li class="waves-effect teal active"><a href="?page={{ p }}">{{ p }}</a></li>
+				{% else %}
+					<li class="waves-effect"><a href="?page={{ p }}">{{ p }}</a></li>
+				{% endif %}
+			{% endfor %}
+		{% else %}
+			{% for p in page_obj.paginator.page_range %}
+				{% if p >= page_obj.number|add:"-3" and p <= page_obj.number|add:"3" %}
+					{% if page_obj.number == p %}
+						<li class="waves-effect teal active"><a href="?page={{ p }}">{{ p }}</a></li>
+					{% else %}
+						<li class="waves-effect"><a href="?page={{ p }}">{{ p }}</a></li>
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+
+		{% if page_obj.has_next %}
+			<li class="waves-effect"><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+		{% endif %}
 	</ul>
+
 	{% for page_section in page_sections %}
 		<div class="section">
 			<h3>{{ page_section.title }}</h3>

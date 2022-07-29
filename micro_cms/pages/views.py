@@ -1,4 +1,5 @@
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from .models import WebPage, PageSection
@@ -15,12 +16,17 @@ def index(request):
     ).order_by('order')
     devices = Device.objects.filter(
         page=page
-    ).select_related('vendor')
+    ).order_by('name').select_related('vendor')
+
+    paginator = Paginator(devices, 12)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {
         'page': page,
         'page_sections': page_sections,
-        'devices': devices
+        'page_obj': page_obj
     }
 
     return render(request, 'pages/index.html', context)
