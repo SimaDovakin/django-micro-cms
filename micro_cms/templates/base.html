@@ -16,6 +16,15 @@
 			const selects = document.querySelectorAll('select');
 			const selectInstances = M.FormSelect.init(selects);
 		});
+
+		const deviceList = document.getElementById('deviceList');
+		deviceList.addEventListener('click', function(e) {
+			if (e.target.classList.contains('select-device')) {
+				console.log(e.target.dataset.deviceId);
+
+				M.toast({html: 'Device selected!'});
+			}
+		});
 	</script>
 </body>
 </html>
