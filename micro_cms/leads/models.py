@@ -55,7 +55,7 @@ class WalkIn(models.Model):
         return self.lead.name
 
     def save(self, *args, **kwargs):
-        most_recent_walkin = WalkIn.filter(
+        most_recent_walkin = WalkIn.objects.filter(
             vendor=self.vendor
         ).order_by('-created_on').first()
         if most_recent_walkin:

@@ -1,9 +1,11 @@
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib import messages
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .forms import LeadCaptureForm
 from .models import WebPage, PageSection
+from leads.models import WalkIn
 from products.models import Device
 
 
@@ -24,7 +26,32 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    form = LeadCaptureForm()
+    if request.method == "POST":
+        form = LeadCaptureForm(request.POST)
+
+        device_id = request.COOKIES.get('deviceId')
+        if device_id:
+            if form.is_valid():
+                device = Device.objects.get(pk=device_id)
+                lead = form.save(commit=False)
+
+                walk_in = WalkIn(
+                    lead=lead,
+                    vendor=device.vendor,
+                    device=device,
+                    currency=device.currency,
+                    price=device.price
+                )
+
+                lead.save()
+                walk_in.save()
+
+                messages.success(request, 'Successfuly sent!')
+                return redirect('index')
+        else:
+            messages.error(request, "Please, select a device!")
+    else:
+        form = LeadCaptureForm()
 
     context = {
         'page': page,

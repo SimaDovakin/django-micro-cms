@@ -7,6 +7,17 @@
 </head>
 <body>
 	<div class="container">
+	{% if messages %}
+		{% for message in messages %}
+			{% if message.tags == 'error' %}
+				<p class="red-text">{{ message }}</p>
+			{% elif message.tags == 'success' %}
+				<p class="green-text">{{ message }}</p>
+			{% else %}
+				<p>{{ message }}</p>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
 	{% block page_content %}{% endblock %}
 	</div>
     
@@ -17,10 +28,22 @@
 			const selectInstances = M.FormSelect.init(selects);
 		});
 
+		function setCookie(name, value, ageInDays) {
+			let cookie = name + "=" + encodeURIComponent(value);
+			if (typeof ageInDays === "number") {
+				let ageInSeconds = ageInDays * 24 * 60 * 60;
+
+				cookie += "; max-age=" + ageInSeconds;
+			}
+			cookie += "; SameSite=Lax";
+			document.cookie = cookie;
+		}
+
 		const deviceList = document.getElementById('deviceList');
 		deviceList.addEventListener('click', function(e) {
 			if (e.target.classList.contains('select-device')) {
 				console.log(e.target.dataset.deviceId);
+				setCookie('deviceId', e.target.dataset.deviceId, 60);
 
 				M.toast({html: 'Device selected!'});
 			}
