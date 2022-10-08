@@ -4,3 +4,4 @@ venv
 *.db
 *.sqlite3
 micro_cms/media
+micro_cms/static
